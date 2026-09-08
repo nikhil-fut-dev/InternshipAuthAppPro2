@@ -23,3 +23,9 @@ export const logoutUser = async () => {
   const response = await axios.post("/auth/logout");
   return response.data;
 };
+
+// Get CSRF Token
+export const getCsrfToken = async () => {
+  const response = await axios.get("/auth/csrf-token");
+  return response.data;
+};

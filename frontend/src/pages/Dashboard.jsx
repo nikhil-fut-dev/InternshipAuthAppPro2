@@ -23,9 +23,9 @@ const Dashboard = () => {
 
       navigate("/login");
     } catch (error) {
-      localStorage.removeItem("user");
+      console.error("Logout Error:", error.response?.data || error.message);
 
-      toast.error("Logout failed");
+      toast.error(error.response?.data?.message || "Logout failed");
     }
   };
 

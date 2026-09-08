@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff, FiUserPlus } from "react-icons/fi";
-import { registerUser } from "../services/authService";
+import { registerUser, getCsrfToken } from "../services/authService";
 import toast from "react-hot-toast";
 
 const Register = () => {
@@ -9,6 +9,12 @@ const Register = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    getCsrfToken().catch(() => {
+      toast.error("Unable to initialize secure registration");
+    });
+  }, []);
 
   const [loading, setLoading] = useState(false);
 

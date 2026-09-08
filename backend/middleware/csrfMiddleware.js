@@ -2,36 +2,26 @@ import { doubleCsrf } from "csrf-csrf";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const {
-  invalidCsrfTokenError,
-  generateCsrfToken,
-  validateRequest,
-  doubleCsrfProtection,
-} = doubleCsrf({
-  getSecret: () => process.env.CSRF_SECRET,
+const { invalidCsrfTokenError, generateCsrfToken, doubleCsrfProtection } =
+  doubleCsrf({
+    getSecret: () => process.env.CSRF_SECRET,
 
-  // JWT cookie se unique identifier
-  getSessionIdentifier: (req) => req.cookies?.accessToken || "anonymous",
+    getSessionIdentifier: (req) => req.ip,
 
-  cookieName: "csrfToken",
+    cookieName: "csrfToken",
 
-  cookieOptions: {
-    httpOnly: false,
-    secure: isProduction,
-    sameSite: isProduction ? "none" : "lax",
-    path: "/",
-  },
+    cookieOptions: {
+      httpOnly: false,
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
+      path: "/",
+    },
 
-  size: 32,
+    size: 32,
 
-  ignoredMethods: ["GET", "HEAD", "OPTIONS"],
+    ignoredMethods: ["GET", "HEAD", "OPTIONS"],
 
-  getCsrfTokenFromRequest: (req) => req.headers["x-csrf-token"],
-});
+    getCsrfTokenFromRequest: (req) => req.headers["x-csrf-token"],
+  });
 
-export {
-  invalidCsrfTokenError,
-  generateCsrfToken,
-  validateRequest,
-  doubleCsrfProtection,
-};
+export { invalidCsrfTokenError, generateCsrfToken, doubleCsrfProtection };

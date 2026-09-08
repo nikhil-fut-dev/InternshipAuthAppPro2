@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
 import toast from "react-hot-toast";
 
-import { loginUser } from "../services/authService";
+import { loginUser, getCsrfToken } from "../services/authService";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,6 +15,12 @@ const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getCsrfToken().catch(() => {
+      toast.error("Unable to initialize secure login");
+    });
+  }, []);
 
   // Handle input changes
   const handleChange = (e) => {

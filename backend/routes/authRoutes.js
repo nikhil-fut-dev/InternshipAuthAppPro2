@@ -18,7 +18,10 @@ import {
   registerRateLimiter,
 } from "../middleware/rateLimitMiddleware.js";
 
-import { generateCsrfToken } from "../middleware/csrfMiddleware.js";
+import {
+  generateCsrfToken,
+  doubleCsrfProtection,
+} from "../middleware/csrfMiddleware.js";
 
 const router = express.Router();
 
@@ -27,17 +30,24 @@ router.post(
   "/register",
   registerRateLimiter,
   validate(registerSchema),
+  doubleCsrfProtection,
   registerUser,
 );
 
 // Login
-router.post("/login", loginRateLimiter, validate(loginSchema), loginUser);
+router.post(
+  "/login",
+  loginRateLimiter,
+  validate(loginSchema),
+  doubleCsrfProtection,
+  loginUser,
+);
 
 // Current user
 router.get("/me", protect, getMe);
 
 // Logout
-router.post("/logout", logoutUser);
+router.post("/logout", doubleCsrfProtection, logoutUser);
 
 // CSRF-token
 router.get("/csrf-token", (req, res) => {

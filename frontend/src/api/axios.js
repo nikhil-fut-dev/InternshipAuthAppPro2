@@ -8,9 +8,25 @@ const api = axios.create({
   },
 });
 
-// Response Interceptor
+api.interceptors.request.use(
+  (config) => {
+    const csrfToken = getCookie("csrfToken");
+
+    if (
+      csrfToken &&
+      ["post", "put", "patch", "delete"].includes(config.method?.toLowerCase())
+    ) {
+      config.headers["X-CSRF-Token"] = csrfToken;
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
 api.interceptors.response.use(
   (response) => response,
+
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("user");
@@ -20,5 +36,13 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+function getCookie(name) {
+  const cookies = document.cookie.split("; ");
+
+  const cookie = cookies.find((row) => row.startsWith(`${name}=`));
+
+  return cookie ? decodeURIComponent(cookie.split("=")[1]) : null;
+}
 
 export default api;
