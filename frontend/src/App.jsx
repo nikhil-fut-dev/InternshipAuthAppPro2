@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import VerifyEmail from "./pages/VerifyEmail";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -19,6 +20,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
         <Route path="/login" element={<Login />} />
+
+        <Route path="/verify-email/:token" element={<VerifyEmail />} />
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
