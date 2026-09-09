@@ -48,7 +48,7 @@ router.get("/verify-email/:token", verifyEmail);
 router.get("/me", protect, getMe);
 
 // Logout
-router.post("/logout", doubleCsrfProtection, logoutUser);
+router.post("/logout", logoutUser);
 
 // CSRF-token
 router.get("/csrf-token", (req, res) => {
