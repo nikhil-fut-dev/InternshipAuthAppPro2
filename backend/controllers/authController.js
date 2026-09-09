@@ -38,7 +38,7 @@ export const registerUser = async (req, res) => {
 
     const verificationTokenExpires = new Date(Date.now() + 15 * 60 * 1000);
 
-    const verificationUrl = `http://localhost:5173/verify-email/${verificationToken}`;
+    const verificationUrl = `${process.env.FRONTEND_URL}/verify-email/${verificationToken}`;
 
     const user = await User.create({
       fullName,
