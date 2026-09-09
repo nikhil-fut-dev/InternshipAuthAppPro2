@@ -21,7 +21,6 @@ import {
 
 import {
   generateCsrfToken,
-  doubleCsrfProtection,
 } from "../middleware/csrfMiddleware.js";
 
 const router = express.Router();
