@@ -31,7 +31,6 @@ router.post(
   "/register",
   registerRateLimiter,
   validate(registerSchema),
-  doubleCsrfProtection,
   registerUser,
 );
 
@@ -40,7 +39,6 @@ router.post(
   "/login",
   loginRateLimiter,
   validate(loginSchema),
-  doubleCsrfProtection,
   loginUser,
 );
 
